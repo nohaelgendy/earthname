@@ -13,8 +13,13 @@ def index():
         # Generate a PDF file with the input text
         pdf = FPDF()
         pdf.add_page()
-        pdf.set_font("Arial", size=12)
+        pdf.set_font("Arial", size=30)
         pdf.cell(200, 10, txt=text_input, ln=1)
+
+        # Add an image to the PDF
+        pdf.image('static/img/earth.jpeg', x=pdf.w / 2 - 50, y=pdf.h / 2 - 50, w=150, h=150)
+        pdf.cell(40, 10, 'Hello World!')
+    
         pdf.output("static/output.pdf")
         
         # Return a response to the user with a link to download the PDF file

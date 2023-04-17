@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h3>This is index.html extends from base.html</h3>
-test branch
+<img src="{{ url_for('static', filename='img/planet-earth.png') }}" class="icon" />
+<br>
+<h3>Earth Name Story</h3>
+<br>
 <form method="POST">
-    <label for="text_input">Enter some text:</label>
-    <input type="text" name="text_input" id="text_input">
-    <button type="submit">Generate PDF</button>
+    <input type="text" name="text_input" placeholder="Enter Kid name" required />
+    <input type="submit" value="Generate Story" />
 </form>
 {% endblock %}

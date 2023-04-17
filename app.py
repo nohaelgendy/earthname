@@ -10,10 +10,8 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def index():
     if request.method == "POST":
         name = request.form['text_input']
-        if not name: name = "Muhammed"
         title = f'"Earth & {name}"'
         result = generate_story(name)
-        print(result)
         pdf = create_pdf(title, result)
         pdf.output("static/earth.pdf")
         
@@ -27,15 +25,15 @@ def index():
 
 def generate_story(name):
     prompt = f"""generate story in two paragraph about planet earth and how to save earth 
-                suitable to kids by character input kid name: {name.capitalize()}"""
+                suitable to kids by character input kid name: {name.capitalize()} and suggest which job in the field of environment he/she can work """
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=prompt,
-        max_tokens=200,
+        max_tokens=125,
         n=1,
         stream=False,
         stop=None,
-        temperature=0.3,
+        temperature=1,
     )
     return response.choices[0].text
 

@@ -11,9 +11,9 @@ def index():
     if request.method == "POST":
         name = request.form['text_input']
         if not name: name = "Muhammed"
-        title = f"Earth & {name}"
+        title = f'"Earth & {name}"'
         result = generate_story(name)
-
+        print(result)
         pdf = create_pdf(title, result)
         pdf.output("static/earth.pdf")
         
@@ -31,11 +31,11 @@ def generate_story(name):
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=prompt,
-        max_tokens=1000,
+        max_tokens=200,
         n=1,
         stream=False,
         stop=None,
-        temperature=0.5,
+        temperature=0.3,
     )
     return response.choices[0].text
 

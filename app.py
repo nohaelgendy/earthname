@@ -1,9 +1,9 @@
 import os
-from flask import Flask, redirect, render_template, request, url_for, send_file
+import tempfile
+
+from flask import Flask, redirect, render_template, request, send_file
 from fpdf import FPDF
 import openai
-import io 
-import tempfile
 
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -16,14 +16,7 @@ def index():
         file_name = f'{name}.pdf'
         result = generate_story(name)
         pdf = create_pdf(title, result)
-        # Because Vercel is read only. we have to change this logic of pdf write/read
-        # pdf.output("static/earth.pdf")
-        # return app.send_static_file("earth.pdf")
-
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            tmp_file = os.path.join(tmp_dir, file_name)
-            pdf.output(tmp_file)
-            return send_file(tmp_file, attachment_filename=file_name, as_attachment=True)
+        return send_pdf(pdf, file_name)
     
     return render_template("index.html")
 
@@ -55,6 +48,13 @@ def create_pdf(title, result):
 
     pdf.set_y(pdf.h-35)
     pdf.set_font("Arial", size=8)
-    pdf.cell(0, 10, "earthname.com", 0, 0, "C")
+    pdf.cell(0, 10, "instagram.com/earthname.eg", 0, 0, "C")
 
     return pdf
+
+def send_pdf(pdf, file_name):
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        tmp_file = os.path.join(tmp_dir, file_name)
+        pdf.output(tmp_file)
+        return send_file(tmp_file, attachment_filename=file_name, as_attachment=True)
+
